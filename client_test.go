@@ -1,4 +1,4 @@
-package bgg
+package geekdo
 
 import (
 	"testing"
@@ -9,7 +9,7 @@ import (
 
 func TestClient_request(t *testing.T) {
 	c := NewClient()
-	v := BoardGames{}
-	assert.NoError(t, c.decode("/thing?type=boardgame&id=154203&marketplace=1", &v))
-	spew.Dump(v.BoardGames[0].MarketplaceListings)
+	things, err := c.Things([]string{"boardgame"}, []int{154203, 150376}, ThingOptions{})
+	assert.NoError(t, err)
+	spew.Dump(things)
 }
