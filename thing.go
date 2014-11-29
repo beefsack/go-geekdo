@@ -179,7 +179,7 @@ type Thing struct {
 	Id                  int                       `xml:"id,attr"`
 	Thumbnail           string                    `xml:"thumbnail"`
 	Image               string                    `xml:"image"`
-	Name                []ThingName               `xml:"name"`
+	Names               []ThingName               `xml:"name"`
 	Description         string                    `xml:"description"`
 	YearPublished       IntValue                  `xml:"yearpublished"`
 	ReleaseDate         StringValue               `xml:"releasedate"`
