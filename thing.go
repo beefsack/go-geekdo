@@ -7,6 +7,7 @@ import (
 
 type Things struct {
 	TermsOfUse string  `xml:"termsofuse,attr"`
+	Total      int     `xml:"total,attr"`
 	Items      []Thing `xml:"item"`
 }
 

@@ -120,3 +120,22 @@ func (c *Client) Things(kinds []string, ids []int, options ThingOptions) (Things
 	err := c.decode(fmt.Sprintf("/thing?%s", query.Encode()), &things)
 	return things, err
 }
+
+type SearchOptions struct {
+	Kinds []string
+	Exact bool
+}
+
+func (c *Client) Search(query string, options SearchOptions) (Things, error) {
+	things := Things{}
+	queryParams := url.Values{}
+	queryParams.Set("query", query)
+	if options.Kinds != nil && len(options.Kinds) > 0 {
+		queryParams.Set("type", strings.Join(options.Kinds, ","))
+	}
+	if options.Exact {
+		queryParams.Set("exact", "1")
+	}
+	err := c.decode(fmt.Sprintf("/search?%s", queryParams.Encode()), &things)
+	return things, err
+}

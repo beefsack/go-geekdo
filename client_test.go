@@ -9,7 +9,7 @@ import (
 
 func TestClient_request(t *testing.T) {
 	c := NewClient()
-	things, err := c.Things([]string{"boardgame"}, []int{154203, 150376}, ThingOptions{})
+	things, err := c.Search("Imperial", SearchOptions{})
 	assert.NoError(t, err)
 	spew.Dump(things)
 }
