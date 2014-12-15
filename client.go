@@ -162,3 +162,21 @@ func (c *Client) AdvSearch(url string) ([]CollectionItem, error) {
 	}
 	return ParseAdvSearch(body)
 }
+
+// RatingPercentages gets the rating percentages (ratings from 1 to 10) for a
+// thing.
+func (c *Client) RatingPercentages(id int) (map[int]float64, error) {
+	resp, err := c.httpClient.Get(fmt.Sprintf(
+		"http://boardgamegeek.com/graphstats/thing/%d?ajax=1",
+		id,
+	))
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGraph(body)
+}
