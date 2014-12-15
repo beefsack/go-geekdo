@@ -4,25 +4,29 @@ import (
 	"fmt"
 	"regexp"
 	"strconv"
-	"strings"
 )
 
-var graphRatingsRegexp = regexp.MustCompile("chd=t:([0-9.,]+)")
+var graphRatingsLineRegexp = regexp.MustCompile(`chm=[^\n]+`)
+var graphRatingRegexp = regexp.MustCompile(`t(\d+)`)
 
-// ParseGraph parses a BGG ratings graph to get rating percentages.
-func ParseGraph(page []byte) (map[int]float64, error) {
-	submatches := graphRatingsRegexp.FindStringSubmatch(string(page))
-	if submatches == nil {
-		return nil, fmt.Errorf("could not find graphs in %s", page)
+// ParseGraph parses a BGG ratings graph to get rating counts.
+func ParseGraph(page []byte) (map[int]int, error) {
+	line := graphRatingsLineRegexp.FindString(string(page))
+	if line == "" {
+		return nil, fmt.Errorf("could not find ratings line in %s", page)
 	}
-	ratings := map[int]float64{}
+	ratings := map[int]int{}
 	rating := 1
-	for _, r := range strings.Split(submatches[1], ",") {
-		perc, err := strconv.ParseFloat(r, 64)
+	matches := graphRatingRegexp.FindAllStringSubmatch(line, -1)
+	if matches == nil {
+		return nil, fmt.Errorf("could not find rating values in %s", line)
+	}
+	for _, r := range matches {
+		num, err := strconv.Atoi(r[1])
 		if err != nil {
 			return nil, err
 		}
-		ratings[rating] = perc
+		ratings[rating] = num
 		rating++
 	}
 	return ratings, nil

@@ -27,16 +27,16 @@ func TestParseGraph(t *testing.T) {
 	</div>
 </div>`))
 	assert.NoError(t, err)
-	assert.Equal(t, map[int]float64{
+	assert.Equal(t, map[int]int{
 		1:  0,
-		2:  6.6,
-		3:  4.9,
-		4:  11.5,
-		5:  37.8,
-		6:  95.2,
-		7:  67.3,
-		8:  41.1,
-		9:  3.3,
+		2:  4,
+		3:  3,
+		4:  7,
+		5:  23,
+		6:  58,
+		7:  41,
+		8:  25,
+		9:  2,
 		10: 0,
 	}, ratings)
 }
