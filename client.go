@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -145,4 +146,19 @@ func (c *Client) Search(query string, options SearchOptions) (Things, error) {
 	}
 	err := c.decode(fmt.Sprintf("/search?%s", queryParams.Encode()), &things)
 	return things, err
+}
+
+// AdvSearch scrapes an advanced search page for more powerful searching and
+// ordering.
+func (c *Client) AdvSearch(url string) ([]CollectionItem, error) {
+	resp, err := c.httpClient.Get(url)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAdvSearch(body)
 }
