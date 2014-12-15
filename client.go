@@ -12,10 +12,12 @@ import (
 	"time"
 )
 
+// Client is a client of a geekdo site.
 type Client struct {
 	httpClient *http.Client
 }
 
+// NewClient creates a Client.
 func NewClient() *Client {
 	return &Client{
 		httpClient: &http.Client{},
@@ -34,7 +36,7 @@ func (c *Client) request(path string) (*http.Response, error) {
 	return c.httpClient.Do(req)
 }
 
-func (c *Client) getXml(path string) (io.ReadCloser, error) {
+func (c *Client) getXML(path string) (io.ReadCloser, error) {
 	resp, err := c.request(path)
 	if err != nil {
 		return nil, err
@@ -43,7 +45,7 @@ func (c *Client) getXml(path string) (io.ReadCloser, error) {
 }
 
 func (c *Client) decode(path string, v interface{}) error {
-	body, err := c.getXml(path)
+	body, err := c.getXML(path)
 	if err != nil {
 		return err
 	}
@@ -51,6 +53,7 @@ func (c *Client) decode(path string, v interface{}) error {
 	return xml.NewDecoder(body).Decode(v)
 }
 
+// ThingOptions specify options used when querying things.
 type ThingOptions struct {
 	Versions       bool
 	Videos         bool
@@ -65,10 +68,12 @@ type ThingOptions struct {
 	To             time.Time
 }
 
+// Thing queries a thing of a kind and an id.
 func (c *Client) Thing(kind string, id int, options ThingOptions) (Things, error) {
 	return c.Things([]string{kind}, []int{id}, options)
 }
 
+// Things query things given kinds and ids.
 func (c *Client) Things(kinds []string, ids []int, options ThingOptions) (Things, error) {
 	things := Things{}
 	if kinds == nil || len(kinds) == 0 {
@@ -121,11 +126,13 @@ func (c *Client) Things(kinds []string, ids []int, options ThingOptions) (Things
 	return things, err
 }
 
+// SearchOptions are the options used when searching.
 type SearchOptions struct {
 	Kinds []string
 	Exact bool
 }
 
+// Search searches Geekdo given a query and options.
 func (c *Client) Search(query string, options SearchOptions) (Things, error) {
 	things := Things{}
 	queryParams := url.Values{}
