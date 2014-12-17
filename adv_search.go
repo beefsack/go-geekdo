@@ -10,7 +10,7 @@ import (
 	"github.com/moovweb/gokogiri/xml"
 )
 
-var firstNumberRegexp = regexp.MustCompile(`\d+`)
+var urlPartsRegexp = regexp.MustCompile(`^/(.+)/(\d+)/`)
 
 func singleContent(n xml.Node, s string) (string, error) {
 	nodes, err := n.Search(s)
@@ -69,8 +69,13 @@ func ParseAdvSearch(page []byte) ([]CollectionItem, error) {
 		if err != nil {
 			return nil, err
 		}
-		// ID (from URL)
-		item.ID, err = strconv.Atoi(firstNumberRegexp.FindString(item.URL))
+		// ID and kind (from URL)
+		submatches := urlPartsRegexp.FindStringSubmatch(item.URL)
+		if submatches == nil {
+			return nil, fmt.Errorf("could not find kind and ID in %s", item.URL)
+		}
+		item.Kind = submatches[1]
+		item.ID, err = strconv.Atoi(submatches[2])
 		// Year
 		years, err := r.Search(
 			"td[starts-with(@id, 'CEcell_objectname')]//span[@class='smallerfont dull']")
