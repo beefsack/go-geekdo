@@ -72,16 +72,22 @@ func ParseAdvSearch(page []byte) ([]CollectionItem, error) {
 		// ID (from URL)
 		item.ID, err = strconv.Atoi(firstNumberRegexp.FindString(item.URL))
 		// Year
-		year, err := singleContent(r, "td[starts-with(@id, 'CEcell_objectname')]//span[@class='smallerfont dull']")
+		years, err := r.Search(
+			"td[starts-with(@id, 'CEcell_objectname')]//span[@class='smallerfont dull']")
 		if err != nil {
 			return nil, err
 		}
-		item.Year, err = strconv.Atoi(strings.TrimFunc(year, func(r rune) bool {
-			// Trim brackets and spaces
-			return r < '0' || r > '9'
-		}))
-		if err != nil {
-			return nil, err
+		if len(years) > 0 {
+			item.Year, err = strconv.Atoi(strings.TrimFunc(
+				years[0].Content(),
+				func(r rune) bool {
+					// Trim brackets and spaces
+					return r < '0' || r > '9'
+				},
+			))
+			if err != nil {
+				return nil, err
+			}
 		}
 		// Ratings (can be N/A)
 		ratings, err := r.Search("td[@class='collection_bggrating']")
