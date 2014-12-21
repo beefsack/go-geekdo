@@ -12,6 +12,20 @@ import (
 
 var urlPartsRegexp = regexp.MustCompile(`^/(.+)/(\d+)/`)
 
+// SearchCollectionItem is a row in an advanced search result.
+type SearchCollectionItem struct {
+	ID           int
+	Type         string
+	Rank         int
+	Thumbnail    string
+	Name         string
+	URL          string
+	Year         int
+	BayesAverage float64
+	Average      float64
+	UsersRated   int
+}
+
 func singleContent(n xml.Node, s string) (string, error) {
 	nodes, err := n.Search(s)
 	if err != nil {
@@ -28,7 +42,7 @@ func singleContent(n xml.Node, s string) (string, error) {
 }
 
 // ParseAdvSearch parses the items out of an advanced search.
-func ParseAdvSearch(page []byte) ([]CollectionItem, error) {
+func ParseAdvSearch(page []byte) ([]SearchCollectionItem, error) {
 	doc, err := gokogiri.ParseHtml(page)
 	if err != nil {
 		return nil, err
@@ -37,9 +51,9 @@ func ParseAdvSearch(page []byte) ([]CollectionItem, error) {
 	if err != nil {
 		return nil, err
 	}
-	items := []CollectionItem{}
+	items := []SearchCollectionItem{}
 	for _, r := range rows {
-		item := CollectionItem{}
+		item := SearchCollectionItem{}
 		// Rank
 		rank, err := singleContent(r, "td[@class='collection_rank']")
 		if err != nil {
