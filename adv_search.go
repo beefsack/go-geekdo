@@ -117,13 +117,13 @@ func ParseAdvSearch(page []byte) ([]SearchCollectionItem, error) {
 			return nil, fmt.Errorf("expected to find 3 ratings in %s", r.Content())
 		}
 		if content := strings.TrimSpace(ratings[0].Content()); content != "N/A" {
-			item.Average, err = strconv.ParseFloat(content, 64)
+			item.BayesAverage, err = strconv.ParseFloat(content, 64)
 			if err != nil {
 				return nil, err
 			}
 		}
 		if content := strings.TrimSpace(ratings[1].Content()); content != "N/A" {
-			item.BayesAverage, err = strconv.ParseFloat(content, 64)
+			item.Average, err = strconv.ParseFloat(content, 64)
 			if err != nil {
 				return nil, err
 			}
