@@ -65,12 +65,9 @@ func ParseAdvSearch(page []byte) ([]SearchCollectionItem, error) {
 				return nil, err
 			}
 		}
-		// Thumbnail
-		item.Thumbnail, err = singleContent(r,
+		// Thumbnail, may be missing for a game
+		item.Thumbnail, _ = singleContent(r,
 			"td[@class='collection_thumbnail']//img/@src")
-		if err != nil {
-			return nil, err
-		}
 		// Name
 		item.Name, err = singleContent(r,
 			"td[starts-with(@id, 'CEcell_objectname')]/div[starts-with(@id, 'results_objectname')]/a")
