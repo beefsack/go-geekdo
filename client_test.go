@@ -7,7 +7,8 @@ import (
 )
 
 func TestClient_AdvSearch(t *testing.T) {
-	c := NewClient()
+	c, err := NewClient()
+	assert.NoError(t, err)
 	res, err := c.AdvSearch("https://boardgamegeek.com/browse/boardgame/page/1?sort=rank&sortdir=asc")
 	assert.NoError(t, err)
 	assert.NotEmpty(t, res)

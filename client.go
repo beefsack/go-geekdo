@@ -7,6 +7,7 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+	"net/http/cookiejar"
 	"net/url"
 	"strconv"
 	"strings"
@@ -41,10 +42,16 @@ type Client struct {
 }
 
 // NewClient creates a Client.
-func NewClient() *Client {
-	return &Client{
-		httpClient: &http.Client{},
+func NewClient() (*Client, error) {
+	jar, err := cookiejar.New(nil)
+	if err != nil {
+		return nil, fmt.Errorf("could not create cookie jar: %w", err)
 	}
+	return &Client{
+		httpClient: &http.Client{
+			Jar: jar,
+		},
+	}, nil
 }
 
 func (c *Client) apiGet(path string) (io.ReadCloser, error) {
