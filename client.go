@@ -1,6 +1,7 @@
 package geekdo
 
 import (
+	"context"
 	"encoding/xml"
 	"errors"
 	"fmt"
@@ -12,7 +13,11 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"golang.org/x/time/rate"
 )
+
+const RATE_LIMIT = 5 * time.Second
 
 // BoolOpt is an option boolean type used for querying the API.
 type BoolOpt int
@@ -39,6 +44,7 @@ var (
 // Client is a client of a geekdo site.
 type Client struct {
 	httpClient *http.Client
+	limiter    *rate.Limiter
 }
 
 // NewClient creates a Client.
@@ -51,6 +57,7 @@ func NewClient() (*Client, error) {
 		httpClient: &http.Client{
 			Jar: jar,
 		},
+		limiter: rate.NewLimiter(rate.Every(RATE_LIMIT), 1),
 	}, nil
 }
 
@@ -151,13 +158,13 @@ type SearchOptions struct {
 }
 
 func (c *Client) get(url string) (resp *http.Response, err error) {
+	c.limiter.Wait(context.Background())
 	if resp, err = c.httpClient.Get(url); err != nil {
 		return
 	}
 	if resp.StatusCode == http.StatusAccepted {
 		// Request added to a queue, wait a bit and try again.
 		// see http://boardgamegeek.com/thread/1188687/export-collections-has-been-updated-xmlapi-develop
-		time.Sleep(time.Second)
 		return c.get(url)
 	}
 	return
