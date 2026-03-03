@@ -10,10 +10,13 @@ import (
 	"net/http"
 	"net/http/cookiejar"
 	"net/url"
+	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
 
+	"golang.org/x/net/publicsuffix"
 	"golang.org/x/time/rate"
 )
 
@@ -45,11 +48,12 @@ var (
 type Client struct {
 	httpClient *http.Client
 	limiter    *rate.Limiter
+	referer    string
 }
 
 // NewClient creates a Client.
 func NewClient() (*Client, error) {
-	jar, err := cookiejar.New(nil)
+	jar, err := cookiejar.New(&cookiejar.Options{PublicSuffixList: publicsuffix.List})
 	if err != nil {
 		return nil, fmt.Errorf("could not create cookie jar: %w", err)
 	}
@@ -157,17 +161,43 @@ type SearchOptions struct {
 	Exact bool
 }
 
-func (c *Client) get(url string) (resp *http.Response, err error) {
+func (c *Client) setBaseHeaders(req *http.Request) {
+	req.Header.Set("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0")
+	req.Header.Set("Accept-Language", "en-US,en;q=0.9")
+	req.Header.Set("Connection", "keep-alive")
+}
+
+func (c *Client) get(rawURL string) (*http.Response, error) {
 	c.limiter.Wait(context.Background())
-	if resp, err = c.httpClient.Get(url); err != nil {
-		return
+	req, err := http.NewRequest("GET", rawURL, nil)
+	if err != nil {
+		return nil, err
+	}
+	c.setBaseHeaders(req)
+	req.Header.Set("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
+	req.Header.Set("Upgrade-Insecure-Requests", "1")
+	req.Header.Set("Sec-Fetch-Dest", "document")
+	req.Header.Set("Sec-Fetch-Mode", "navigate")
+	if c.referer != "" {
+		req.Header.Set("Sec-Fetch-Site", "same-origin")
+		req.Header.Set("Referer", c.referer)
+	} else {
+		req.Header.Set("Sec-Fetch-Site", "none")
+	}
+	req.Header.Set("Sec-Fetch-User", "?1")
+	req.Header.Set("Priority", "u=0, i")
+	resp, err := c.httpClient.Do(req)
+	if err != nil {
+		return nil, err
 	}
 	if resp.StatusCode == http.StatusAccepted {
 		// Request added to a queue, wait a bit and try again.
 		// see http://boardgamegeek.com/thread/1188687/export-collections-has-been-updated-xmlapi-develop
-		return c.get(url)
+		resp.Body.Close()
+		return c.get(rawURL)
 	}
-	return
+	c.referer = rawURL
+	return resp, nil
 }
 
 // Search searches Geekdo given a query and options.
@@ -196,6 +226,19 @@ func (c *Client) AdvSearch(url string) ([]SearchCollectionItem, error) {
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
+	}
+	if dir := os.Getenv("DUMP_PAGES"); dir != "" {
+		// Extract last path segment before query string for filename.
+		seg := url
+		if i := strings.Index(seg, "?"); i >= 0 {
+			seg = seg[:i]
+		}
+		seg = strings.TrimRight(seg, "/")
+		if i := strings.LastIndex(seg, "/"); i >= 0 {
+			seg = seg[i+1:]
+		}
+		name := fmt.Sprintf("page-%s-%d.html", seg, time.Now().UnixNano())
+		os.WriteFile(filepath.Join(dir, name), body, 0644)
 	}
 	return ParseAdvSearch(body)
 }

@@ -1,13 +1,11 @@
 package geekdo
 
 var advSearchExpected = []SearchCollectionItem{
-	{ID: 42, Type: "boardgame", Rank: 92, Thumbnail: "https://cf.geekdo-images.com/soAzNVWglCdVBacNjoCTJw__micro/img/7MXTV2Z2rBL40blbo6F8e1RBeRo=/fit-in/64x64/filters:strip_icc()/pic2338267.jpg", Name: "Tigris & Euphrates", URL: "/boardgame/42/tigris-euphrates", Year: 1997, BayesAverage: 7.53, Average: 7.7, UsersRated: 25368},
-	{ID: 19419, Type: "boardgame", Rank: 4359, Thumbnail: "https://cf.geekdo-images.com/AbS6G6Wk8Bbd84PH2xeIzA__micro/img/fKG9MauHKDSxwE3mukJKSNrxX5w=/fit-in/64x64/filters:strip_icc()/pic1512661.jpg", Name: "Euphrates & Tigris: Contest of Kings", URL: "/boardgame/19419/euphrates-tigris-contest-kings", Year: 2005, BayesAverage: 5.735, Average: 6.08, UsersRated: 1210},
+	{ID: 72125, Type: "boardgame", Rank: 101, Thumbnail: "https://cf.geekdo-images.com/cnFppsVNOSTJ-W3APQFuTg__micro/img/dfQTNAju5CUxn6JQl-Pxubac99o=/fit-in/64x64/filters:strip_icc()/pic1974056.jpg", Name: "Eclipse: New Dawn for the Galaxy", URL: "/boardgame/72125/eclipse-new-dawn-for-the-galaxy", Year: 2011, BayesAverage: 7.59, Average: 7.82, UsersRated: 28997},
+	{ID: 359871, Type: "boardgame", Rank: 102, Thumbnail: "https://cf.geekdo-images.com/XWImAu_3RK61wbzcKboVdA__micro/img/LqttudgwlhjRyem9gXvYuhVaZzA=/fit-in/64x64/filters:strip_icc()/pic8145530.png", Name: "Arcs", URL: "/boardgame/359871/arcs", Year: 2024, BayesAverage: 7.585, Average: 8.02, UsersRated: 15912},
 }
 
-var advSearchPage = []byte(`
-
-<!DOCTYPE html>
+var advSearchPage = []byte(`<!DOCTYPE html>
 <html ng-app="GeekApp" lang="en-US" ng-cloak>
 <head>
 	<meta charset='utf-8'>
@@ -15,11 +13,9 @@ var advSearchPage = []byte(`
 			<script>
 			window.addEventListener( 'DOMContentLoaded',  function() {
 				var width = document.documentElement.clientWidth || window.innerWidth;
-				console.log(width);
 				if (width < 960) {
 					var mvp = document.getElementById('vp');
 					// android debugging
-					console.log(mvp);
 					mvp.setAttribute('content','width=960');
 				}
 			});
@@ -27,7 +23,7 @@ var advSearchPage = []byte(`
 		<meta content='yes' name='apple-mobile-web-app-capable'>
 	<meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'>
 
-			<title>BoardGameGeek | Gaming Unplugged Since 2000</title>
+			<title>Browse Board Games | BoardGameGeek</title>
 	
 	
 <link rel="apple-touch-icon" 	href="https://cf.geekdo-static.com/icons/touch-icon180.png" />
@@ -36,33 +32,40 @@ var advSearchPage = []byte(`
 <link rel="search" 				href="/game-opensearch.xml" type="application/opensearchdescription+xml" title="BGG Game Search" />
 <meta name="apple-mobile-web-app-title" content="BGG">
 
-
-<link rel="preconnect" href="https://www.google.com" />
+<meta name="theme-color" content="#2e2b47">
 <link rel="preconnect" href="https://api.geekdo.com" />
+
+
 
 
 	<meta property="og:image" content="https://cf.geekdo-static.com/images/opengraph/bgg_opengraph.png" />
 
 
 
-
 	<meta name="keywords" content="board game, boardgames, boardgame, board, games, game, hobby, boardgamegeek, geek, geekdo">
 
+<script>window.AdSlots = window.AdSlots || {
+	cmd: [],
+	disableScripts: ['gpt'],
+	renderOnFirstLoad: false,
+	divCheck: false
+};</script>
 
-						<link rel='stylesheet' type='text/css' href='https://cf.geekdo-static.com/static/geekui_master2_605e44a69a734.css'>
-					<link rel='stylesheet' type='text/css' href='https://cf.geekdo-static.com/static/css_master2_605e449a6e466.css'>
+
+						<link rel='stylesheet' type='text/css' href='https://cf.geekdo-static.com/static/geekui_master2_69a6444a5d900.css'>
+					<link rel='stylesheet' type='text/css' href='https://cf.geekdo-static.com/static/css_master2_69a644395401a.css'>
 			
 	<base href="/">
 
-	<script src="https://kit.fontawesome.com/42d3f5a072.js" crossorigin="anonymous"></script>
-
 <script>
 	var GEEK = GEEK || {};
-	GEEK.adBlock = [];
-	GEEK.adConfig = {"blockleaderboard":true,"blockskyscraper":null,"noadsense":null};
-	GEEK.adSlots = {"dfp-leaderboard":{"name":"boardgame_leaderboard_728x90"},"dfp-skyscraper":{"name":"boardgame_skyscraper_160x600"},"dfp-medrect":{"name":"boardgame_rectangle_300x250"},"dfp-repeater":{"name":"boardgame_home_repeater"},"dfp-medrect-reserved-home":{"name":"boardgame_reserved_home_300x250"},"dfp-leaderboard-lg":{"name":"boardgame_home_hero"},"dfp-home-sidekick":{"name":"boardgame_home_sidekick"}};
-	GEEK.googleTargets = null;
-	GEEK.userid = 0;
+	GEEK.adBlock = {"blockleaderboard":0,"blocklargeleaderboard":0,"blockskyscraper":0,"blockrectangle":0,"blockitembanner":0,"blocktextad":0,"blockebay":0,"blocksupportdrive":0,"blockamazon":0,"blockamazonsearch":0,"blockcontestsmodule":0,"blockbggstore":0,"blockbuyacopy":0,"blockpreview":0,"blockbetweenposts":0,"blocksleevesad":0};
+	GEEK.adConfig = {"blockleaderboard":null,"noadsense":false,"blocksupportdrive":null};
+	GEEK.adSlots = {"dfp-leaderboard":{"name":"boardgame_leaderboard_728x90"},"dfp-skyscraper":{"name":"boardgame_skyscraper_160x600"},"dfp-medrect":{"name":"boardgame_rectangle_300x250"},"dfp-repeater":{"name":"boardgame_home_repeater"},"dfp-medrect-reserved-home":{"name":"boardgame_reserved_home_300x250"},"dfp-leaderboard-lg":{"name":"boardgame_home_hero"},"dfp-home-sidekick":{"name":"boardgame_home_repeater"},"dfp-inline-post":{"name":"boardgame_inline_post"},"dfp-gamepage-marketplace":{"name":"boardgame_inline_post"}};
+	GEEK.legacyAds = [];
+	GEEK.bggStoreAds = [];
+	GEEK.googleTargets = [];
+	GEEK.userid = 3281431;
 	GEEK.domainname = 'boardgamegeek.com';
 	GEEK.domain = 'boardgame';
 	GEEK.geekitemPreload = {};
@@ -72,13 +75,16 @@ var advSearchPage = []byte(`
 	GEEK.geekimageSettings = null;
 	GEEK.legacy = 1;
 	GEEK.apiurlsPrefix = 'https://api.geekdo.com';
-
+	
+	
 	
 		
 		GEEK.apiurls = {
+		'root': '/api',
 		'amazon': '/api/amazon',
 		'files': '/api/files',
 		'geekitems': '/api/geekitems',
+		'collectionstatsgraph': '/api/collectionstatsgraph',
 		'images': '/api/images',
 		'threads': '/api/forums/threads',
 	 	'forums': '/api/forums',
@@ -87,8 +93,8 @@ var advSearchPage = []byte(`
 		'dynamicinfo': '/api/dynamicinfo',
 		'subtypeinfo': '/api/subtypeinfo',
 		'geekbay': '/api/geekbay',
-		'geekmarket': '/geekmarket/api/v1',
-	    'geekmarketapi': '/api/geekmarket',
+		'geekmarket': '/market/api/v1',
+	    'geekmarketapi': '/api/market',
 		'geeklists': '/api/geeklists',
 		'reviews': '/api/forumreviews',
 		'collections': '/api/collections',
@@ -100,16 +106,42 @@ var advSearchPage = []byte(`
 	   	'geekpreviewparentitems': '/api/geekpreviewparentitems',
 		'recs': '/api/geekitem/recs',
 	    'awards': '/api/geekawards',
-		'historicalrankgraph':  '/api/historicalrankgraph'
+		'historicalrankgraph':  '/api/historicalrankgraph',
+		'blueprint_recipes': '/api/blueprints/recipes',
+		'affiliateads' : '/api/affiliateads',
+		'sleevesbycard': '/api/sleevesbycard',
+		'cardsetsbygame': '/api/cardsetsbygame',
 	};
 </script>
 
-							<script type='text/javascript' src='https://cf.geekdo-static.com/static/geekangular17_master2_605e44b09ec06.js'></script>
-					<script type='text/javascript' src='https://cf.geekdo-static.com/static/geekui_master2_605e44a69a734.js'></script>
-					<script type='text/javascript' src='https://cf.geekdo-static.com/static/js_master2_605e449a06bf2.js'></script>
-					<script type='text/javascript' src='https://cf.geekdo-static.com/static/geekoutputtemplates_master2_605e44b152e36.js'></script>
-					<script type='text/javascript' src='https://cf.geekdo-static.com/static/geekuicommontemplates_master2_605e44b15bb5f.js'></script>
-				<!-- why this? -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-104725-1"></script>
+<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('consent', 'default', {
+		'ad_storage': 'denied',
+		'analytics_storage': 'denied',
+		'personalization_storage': 'denied',
+		'wait_for_update': 3000
+		 });
+	gtag('config', 'UA-104725-1', {
+		'cookie_domain': 'boardgamegeek.com',
+		'send_page_view': false
+	});
+</script>
+
+        						<script type='text/javascript' src='https://cf.geekdo-static.com/static/geekangular17_master2_69a6445ae3165.js'></script>
+					<script type='text/javascript' src='https://cf.geekdo-static.com/static/geekui_master2_69a6444a5d900.js'></script>
+					<script type='text/javascript' src='https://cf.geekdo-static.com/static/js_master2_69a64438d2f9f.js'></script>
+					<script type='text/javascript' src='https://cf.geekdo-static.com/static/geekoutputtemplates_master2_69a6445bd090e.js'></script>
+					<script type='text/javascript' src='https://cf.geekdo-static.com/static/geekuicommontemplates_master2_69a6445bd8519.js'></script>
+			<script>
+	window.geekCookieConsent.gtagReady.then(function() {
+		gtag('event', 'page_view');
+	});
+</script>
+	<!-- why this? -->
 <meta http-equiv="content-type" content="text/html;charset=UTF-8">
 
 <!-- Add to main?
@@ -198,7 +230,7 @@ var advSearchPage = []byte(`
 				Amazon_LoadAds();
 				
 		GEEK.addHandlers();
-		GEEK.recaptchaKey = '6LfpC3MUAAAAAGRUk4nA-p8bk2F_8ijWX5PIdzun';
+		GEEK.recaptchaKey = '6Ldyr6EaAAAAAE0F2hYgtHHqbF6nKPTENAwo6SyU';
 	}
 
 	if( typeof window.addEvent === "function" ) {
@@ -216,27 +248,21 @@ var advSearchPage = []byte(`
 
 </head>
 
-
 <body ng-controller="GeekOutput_LayoutCtrl as layoutctrl"
+		class="domain-boardgame"
+
 		ng-class="{ 'has-no-max-width' : layoutctrl.geekitemSettings.fluidlayout }">
 
 
 <div class='d-flex flex-column min-vh-100'>
-	<div hide-ad-block="blockleaderboard">
-		<div class="advertisement advertisement-leaderboard">
-			<div class='center-block' ng-dfp-ad="dfp-leaderboard"></div>
-		</div>
-	</div>
-
-	
-<div id="global-header-outer" class='global-header-outer'
+        	<div id="global-header-outer" class='global-header-outer'
 	  ng-controller="NavCtrl as navctrl"
 	  click-out="navctrl.closeMobileMenu()">
 
 	<geeknav-menu></geeknav-menu>
 </div>
 
-
+	 
 	
 	<main class='global-body flex-grow-1'
 		  id="mainbody"
@@ -246,28 +272,34 @@ var advSearchPage = []byte(`
 
 		<!-- Home King Ad -->
 		
+		<div hide-ad-block="blockleaderboard" >
+			<div class="advertisement-leaderboard">
+				<div class='center-block' ng-dfp-ad="dfp-leaderboard"></div>
+			</div>
+		</div>
+
 		<div class='global-body-content-container container-fluid'>
-			<!-- <button class="btn btn-primary hidden-xs btn-lg feedback-trigger"
-						login-required
-					  feedback-widget
-					  ng-click="feedbackctrl.openFeedback()">
-				<i class="fi-comments"></i>&nbsp; Feedback
-			</button> -->
-
-			<geekoutput-sidebar deactivate-overlay-sidebar='layoutctrl.deactivateOverlaySidebar' show-overlay-sidebar='layoutctrl.showOverlaySidebar'></geekoutput-sidebar>
-
+							<geekoutput-sidebar deactivate-overlay-sidebar='layoutctrl.deactivateOverlaySidebar' show-overlay-sidebar='layoutctrl.showOverlaySidebar'></geekoutput-sidebar>
+         
 			
 			<div class='global-body-content pending'  ng-class="{'ready': layoutctrl.ready}">
+		
 				<a id='maincontenttarget' tabindex="-1"></a>
 			
+				<div class="support-plea-container" hide-ad-block="blocksupportdrive">
+					<geekoutput-plea></geekoutput-plea>
+				</div>
 				<div class="legacy">
 	<div id="container" class="yui-skin-sam">
 		<div id="maincontent" ng-non-bindable>
-			<div style="margin: auto;"><iframe src="/amazon/iframesearchad?searchterm=euphrates&position=leaderboard&subype=boardgame" class="amazon_search_ad"></iframe></div><form method='GET' action="">
+			<form method='GET' action="">
 <div class='infobox'>
-	<div class='fr'></div>
-	
-		<div class='clear'></div>
+	<div class='fr'><a href="/browse/boardgame/page/1?sort=rank&amp;sortdir=asc" target='_self' title="first page">[1]</a>&nbsp;&nbsp;<a href="/browse/boardgame/page/1?sort=rank&amp;sortdir=asc" target='_self' title="previous page"><b>Prev &laquo;</b></a>&nbsp;&nbsp;<a href="/browse/boardgame/page/1?sort=rank&amp;sortdir=asc" target='_self' title="page 1">1</a>&nbsp;,&nbsp;<b>2</b>&nbsp;,&nbsp;<a href="/browse/boardgame/page/3?sort=rank&amp;sortdir=asc" target='_self' title="page 3">3</a>&nbsp;,&nbsp;<a href="/browse/boardgame/page/4?sort=rank&amp;sortdir=asc" target='_self' title="page 4">4</a>&nbsp;,&nbsp;<a href="/browse/boardgame/page/5?sort=rank&amp;sortdir=asc" target='_self' title="page 5">5</a>&nbsp;&nbsp;<a href="/browse/boardgame/page/3?sort=rank&amp;sortdir=asc" target='_self' title="next page"><b>Next &raquo;</b></a>&nbsp;&nbsp;<a href="/browse/boardgame/page/1745?sort=rank&amp;sortdir=asc" target='_self' title="last page">[1745]</a></div>
+	<div class='fl'>
+			 	 		 <p class="m-0 text-muted">We may earn a commission when you buy through our links. </p>
+	 	</div>
+
+	<div class='clear'></div>
 </div>
 </form>
 
@@ -286,7 +318,7 @@ var advSearchPage = []byte(`
 <tr>	
 			<th class='collection_bggrating'>
 					
-					<a href="/search/boardgame?sort=rank&advsearch=1&q=euphrates&include%5Bdesignerid%5D=&include%5Bpublisherid%5D=&geekitemname=&range%5Byearpublished%5D%5Bmin%5D=&range%5Byearpublished%5D%5Bmax%5D=&range%5Bminage%5D%5Bmax%5D=&range%5Bnumvoters%5D%5Bmin%5D=&range%5Bnumweights%5D%5Bmin%5D=&range%5Bminplayers%5D%5Bmax%5D=&range%5Bmaxplayers%5D%5Bmin%5D=&range%5Bleastplaytime%5D%5Bmin%5D=&range%5Bplaytime%5D%5Bmax%5D=&floatrange%5Bavgrating%5D%5Bmin%5D=&floatrange%5Bavgrating%5D%5Bmax%5D=&floatrange%5Bavgweight%5D%5Bmin%5D=&floatrange%5Bavgweight%5D%5Bmax%5D=&colfiltertype=&searchuser=beefsack&playerrangetype=normal&B1=Submit">Board Game Rank</a>
+					<a href="/browse/boardgame?sort=rank&sortdir=desc">Board Game Rank<img alt='ascending sort' border=0 hspace=5 src='https://cf.geekdo-static.com/images/collection/arrow_up.gif'></a>
 				</th>
 				
 			<th class='collection_thumbnail'>
@@ -295,23 +327,29 @@ var advSearchPage = []byte(`
 		
 			<th class='collection_title'>
 						
-				<a href="/search/boardgame?sort=title&advsearch=1&q=euphrates&include%5Bdesignerid%5D=&include%5Bpublisherid%5D=&geekitemname=&range%5Byearpublished%5D%5Bmin%5D=&range%5Byearpublished%5D%5Bmax%5D=&range%5Bminage%5D%5Bmax%5D=&range%5Bnumvoters%5D%5Bmin%5D=&range%5Bnumweights%5D%5Bmin%5D=&range%5Bminplayers%5D%5Bmax%5D=&range%5Bmaxplayers%5D%5Bmin%5D=&range%5Bleastplaytime%5D%5Bmin%5D=&range%5Bplaytime%5D%5Bmax%5D=&floatrange%5Bavgrating%5D%5Bmin%5D=&floatrange%5Bavgrating%5D%5Bmax%5D=&floatrange%5Bavgweight%5D%5Bmin%5D=&floatrange%5Bavgweight%5D%5Bmax%5D=&colfiltertype=&searchuser=beefsack&playerrangetype=normal&B1=Submit">Title</a>
+				<a href="/browse/boardgame?sort=title">Title</a>
 					</th>
 	
 		
+					
+				<th class='collection_rating'>
+									Your<br>Rating
+		
+						
+		</th>
 		
 			<th class='collection_bggrating'>
-						<a href="/search/boardgame?sort=bggrating&advsearch=1&q=euphrates&include%5Bdesignerid%5D=&include%5Bpublisherid%5D=&geekitemname=&range%5Byearpublished%5D%5Bmin%5D=&range%5Byearpublished%5D%5Bmax%5D=&range%5Bminage%5D%5Bmax%5D=&range%5Bnumvoters%5D%5Bmin%5D=&range%5Bnumweights%5D%5Bmin%5D=&range%5Bminplayers%5D%5Bmax%5D=&range%5Bmaxplayers%5D%5Bmin%5D=&range%5Bleastplaytime%5D%5Bmin%5D=&range%5Bplaytime%5D%5Bmax%5D=&floatrange%5Bavgrating%5D%5Bmin%5D=&floatrange%5Bavgrating%5D%5Bmax%5D=&floatrange%5Bavgweight%5D%5Bmin%5D=&floatrange%5Bavgweight%5D%5Bmax%5D=&colfiltertype=&searchuser=beefsack&playerrangetype=normal&B1=Submit">Geek Rating</a>
+						<a href="/browse/boardgame?sort=bggrating">Geek Rating</a>
 						
 		</th>
 	
 			<th class='collection_bggrating'>
-							<a href="/search/boardgame?sort=avgrating&advsearch=1&q=euphrates&include%5Bdesignerid%5D=&include%5Bpublisherid%5D=&geekitemname=&range%5Byearpublished%5D%5Bmin%5D=&range%5Byearpublished%5D%5Bmax%5D=&range%5Bminage%5D%5Bmax%5D=&range%5Bnumvoters%5D%5Bmin%5D=&range%5Bnumweights%5D%5Bmin%5D=&range%5Bminplayers%5D%5Bmax%5D=&range%5Bmaxplayers%5D%5Bmin%5D=&range%5Bleastplaytime%5D%5Bmin%5D=&range%5Bplaytime%5D%5Bmax%5D=&floatrange%5Bavgrating%5D%5Bmin%5D=&floatrange%5Bavgrating%5D%5Bmax%5D=&floatrange%5Bavgweight%5D%5Bmin%5D=&floatrange%5Bavgweight%5D%5Bmax%5D=&colfiltertype=&searchuser=beefsack&playerrangetype=normal&B1=Submit">Avg Rating</a>
+							<a href="/browse/boardgame?sort=avgrating">Avg Rating</a>
 						
 		</th>
 	
 			<th class='collection_bggrating'>
-							<a href="/search/boardgame?sort=numvoters&advsearch=1&q=euphrates&include%5Bdesignerid%5D=&include%5Bpublisherid%5D=&geekitemname=&range%5Byearpublished%5D%5Bmin%5D=&range%5Byearpublished%5D%5Bmax%5D=&range%5Bminage%5D%5Bmax%5D=&range%5Bnumvoters%5D%5Bmin%5D=&range%5Bnumweights%5D%5Bmin%5D=&range%5Bminplayers%5D%5Bmax%5D=&range%5Bmaxplayers%5D%5Bmin%5D=&range%5Bleastplaytime%5D%5Bmin%5D=&range%5Bplaytime%5D%5Bmax%5D=&floatrange%5Bavgrating%5D%5Bmin%5D=&floatrange%5Bavgrating%5D%5Bmax%5D=&floatrange%5Bavgweight%5D%5Bmin%5D=&floatrange%5Bavgweight%5D%5Bmax%5D=&colfiltertype=&searchuser=beefsack&playerrangetype=normal&B1=Submit">Num Voters</a>
+							<a href="/browse/boardgame?sort=numvoters">Num Voters</a>
 						
 		</th>
 	
@@ -325,7 +363,13 @@ var advSearchPage = []byte(`
 	
 
 		
+			<th class='collection_status'>
+			Status
+					</th>
 	
+				<th class='collection_plays'>
+							Your<br>Plays
+					</th>
 	
 	
 		
@@ -343,16 +387,16 @@ var advSearchPage = []byte(`
 
 	
 	
-			
+			 		
 
 <tr id='row_'>		
 			<td class='collection_rank' align='center' >
-			<a name="92"></a>			92			
+			<a name="101"></a>			101			
 					</td>		
 						
 		
 			<td class='collection_thumbnail'>
-			<a   href="/boardgame/42/tigris-euphrates" ><img alt="Board Game: Tigris & Euphrates"   src="https://cf.geekdo-images.com/soAzNVWglCdVBacNjoCTJw__micro/img/7MXTV2Z2rBL40blbo6F8e1RBeRo=/fit-in/64x64/filters:strip_icc()/pic2338267.jpg"></a>
+			<a   href="/boardgame/72125/eclipse-new-dawn-for-the-galaxy" ><img alt="Board Game: Eclipse: New Dawn for the Galaxy"   srcset="https://cf.geekdo-images.com/cnFppsVNOSTJ-W3APQFuTg__micro/img/dfQTNAju5CUxn6JQl-Pxubac99o=/fit-in/64x64/filters:strip_icc()/pic1974056.jpg, https://cf.geekdo-images.com/cnFppsVNOSTJ-W3APQFuTg__micro@2x/img/VnsMjnBioTwpPeaemudvHNAjgiU=/fit-in/128x128/filters:strip_icc()/pic1974056.jpg 2x" src="https://cf.geekdo-images.com/cnFppsVNOSTJ-W3APQFuTg__micro/img/dfQTNAju5CUxn6JQl-Pxubac99o=/fit-in/64x64/filters:strip_icc()/pic1974056.jpg"></a>
 		</td>
 		
 			<td id='CEcell_objectname1' 
@@ -364,27 +408,43 @@ var advSearchPage = []byte(`
 	<div id='status_objectname1'></div>
 	<div id='results_objectname1' style='z-index:1000;' onclick=''>
 		
-					<a  href="/boardgame/42/tigris-euphrates"  class='primary' >Tigris & Euphrates</a>
+					<a  href="/boardgame/72125/eclipse-new-dawn-for-the-galaxy"  class='primary' >Eclipse: New Dawn for the Galaxy</a>
 				
-							<span class='smallerfont dull'>(1997)</span>
+							<span class='smallerfont dull'>(2011)</span>
 								
 	</div>
 
 			<p class="smallefont dull" style="margin: 2px 0 0 0;">
-			Keep your Mesopotamian civilisation in perfect balance through revolutions and wars.
+			Build an interstellar civilization by exploration, research, conquest, and diplomacy.
 		</p>
 	</td>
 		
 		
+			<td id='CEcell_rating1' class='collection_rating editfield' align=center			
+		onclick="CE_EditData( 
+									{
+									cellid: 		'1',
+									collid:  	'', 
+									fieldname: 	'rating', 
+									objecttype: 'thing', 
+									objectid: 	'72125'
+									}	);"
+		
+	>
+	<div id='status_rating1'></div>
+	<div id='results_rating1'>
+		<div style='background:white;' class='rating'><span>N/A</span></div>
+	</div>
+</td>	
 		
 			<td class='collection_bggrating' align='center'>
-			7.530		</td>
+			7.590		</td>
 	
 			<td class='collection_bggrating' align='center'>
-			7.70		</td>
+			7.82		</td>
 	
 			<td class='collection_bggrating' align='center'>
-			25368		</td>
+			28997		</td>
 	
 	
 
@@ -401,7 +461,52 @@ var advSearchPage = []byte(`
    
    
 		
+			<td id='CEcell_status1' class='collection_status editfield' 
+			
+		onclick="CE_EditData( 
+									{
+									cellid: 		'1',
+									collid:  	'', 
+									fieldname: 	'status', 
+									objecttype: 'thing', 
+									objectid: 	'72125'
+									}	);"
 		
+	>
+	<div id='status_status1'></div>
+	<div id='results_status1'>
+		
+
+
+
+
+
+	
+
+
+	
+	</div>
+</td>
+	
+		
+		
+		
+<td id='CEcell_plays1' class='collection_plays editfield'
+			
+		onclick="CE_NewPlay( 
+			{
+				quickplayid: '2', 
+				objecttype:  'thing',
+				objectid:    '72125', 
+				results:     $('quickplay_results2'),
+				inplace: 	 true,
+				cellid:		 '1'
+			}
+			);"
+	>
+	<div id='quickplay_results2'>
+			</div>
+</td>	
 		
 	
 		
@@ -413,50 +518,68 @@ var advSearchPage = []byte(`
 														
 		
 				<td class='collection_shop'>
-												<div class='aad' id='aad_thing_42_textwithprices__'></div>
-																	[<a href="/boardgame/42/tigris-euphrates/marketplace/geekmarket">Shop</a>]
-					</td>
+												<div class='aad' id='aad_thing_72125_textwithprices__'></div>
+									</td>
 		
 	</tr>
-					
+					 		
 
 <tr id='row_'>		
 			<td class='collection_rank' align='center' >
-			<a name="4359"></a>			4359			
+			<a name="102"></a>			102			
 					</td>		
 						
 		
 			<td class='collection_thumbnail'>
-			<a   href="/boardgame/19419/euphrates-tigris-contest-kings" ><img alt="Board Game: Euphrates & Tigris: Contest of Kings"   src="https://cf.geekdo-images.com/AbS6G6Wk8Bbd84PH2xeIzA__micro/img/fKG9MauHKDSxwE3mukJKSNrxX5w=/fit-in/64x64/filters:strip_icc()/pic1512661.jpg"></a>
+			<a   href="/boardgame/359871/arcs" ><img alt="Board Game: Arcs"   srcset="https://cf.geekdo-images.com/XWImAu_3RK61wbzcKboVdA__micro/img/LqttudgwlhjRyem9gXvYuhVaZzA=/fit-in/64x64/filters:strip_icc()/pic8145530.png, https://cf.geekdo-images.com/XWImAu_3RK61wbzcKboVdA__micro@2x/img/VrVNA_1ZwVmvfs6QDjsNNE78XzE=/fit-in/128x128/filters:strip_icc()/pic8145530.png 2x" src="https://cf.geekdo-images.com/XWImAu_3RK61wbzcKboVdA__micro/img/LqttudgwlhjRyem9gXvYuhVaZzA=/fit-in/64x64/filters:strip_icc()/pic8145530.png"></a>
 		</td>
 		
-			<td id='CEcell_objectname2' 
+			<td id='CEcell_objectname3' 
 	class="collection_objectname 
 						 browse"
 
 	>
 	
-	<div id='status_objectname2'></div>
-	<div id='results_objectname2' style='z-index:1000;' onclick=''>
+	<div id='status_objectname3'></div>
+	<div id='results_objectname3' style='z-index:1000;' onclick=''>
 		
-					<a  href="/boardgame/19419/euphrates-tigris-contest-kings"  class='primary' >Euphrates & Tigris: Contest of Kings</a>
+					<a  href="/boardgame/359871/arcs"  class='primary' >Arcs</a>
 				
-							<span class='smallerfont dull'>(2005)</span>
+							<span class='smallerfont dull'>(2024)</span>
 								
 	</div>
 
+			<p class="smallefont dull" style="margin: 2px 0 0 0;">
+			Rule the galaxy with your court, fleet, and cities.
+		</p>
 	</td>
 		
 		
+			<td id='CEcell_rating3' class='collection_rating editfield' align=center			
+		onclick="CE_EditData( 
+									{
+									cellid: 		'3',
+									collid:  	'', 
+									fieldname: 	'rating', 
+									objecttype: 'thing', 
+									objectid: 	'359871'
+									}	);"
+		
+	>
+	<div id='status_rating3'></div>
+	<div id='results_rating3'>
+		<div style='background:white;' class='rating'><span>N/A</span></div>
+	</div>
+</td>	
 		
 			<td class='collection_bggrating' align='center'>
-			5.735		</td>
+			7.585		</td>
 	
 			<td class='collection_bggrating' align='center'>
-			6.08		</td>
+			8.02		</td>
 	
 			<td class='collection_bggrating' align='center'>
-			1210		</td>
+			15912		</td>
 	
 	
 
@@ -473,7 +596,52 @@ var advSearchPage = []byte(`
    
    
 		
+			<td id='CEcell_status3' class='collection_status editfield' 
+			
+		onclick="CE_EditData( 
+									{
+									cellid: 		'3',
+									collid:  	'', 
+									fieldname: 	'status', 
+									objecttype: 'thing', 
+									objectid: 	'359871'
+									}	);"
 		
+	>
+	<div id='status_status3'></div>
+	<div id='results_status3'>
+		
+
+
+
+
+
+	
+
+
+	
+	</div>
+</td>
+	
+		
+		
+		
+<td id='CEcell_plays3' class='collection_plays editfield'
+			
+		onclick="CE_NewPlay( 
+			{
+				quickplayid: '4', 
+				objecttype:  'thing',
+				objectid:    '359871', 
+				results:     $('quickplay_results4'),
+				inplace: 	 true,
+				cellid:		 '3'
+			}
+			);"
+	>
+	<div id='quickplay_results4'>
+			</div>
+</td>	
 		
 	
 		
@@ -485,66 +653,16 @@ var advSearchPage = []byte(`
 														
 		
 				<td class='collection_shop'>
-												<div class='aad' id='aad_thing_19419_textwithprices__'></div>
-																	[<a href="/boardgame/19419/euphrates-tigris-contest-kings/marketplace/geekmarket">Shop</a>]
-					</td>
+												<div class='aad' id='aad_thing_359871_textwithprices__'></div>
+									</td>
 		
 	</tr>
-		
+					 		
 
 	</table>
 </div>
 
 </div>
-
-<p align='right'></p>
-
-			<div id="legacy_modal"></div>
-		</div>
-	</div>
-</div>
-
-				<div class='global-body-content-secondary'>
-									</div>
-			</div>
-
-			<div class='global-body-ad' hide-ad-block="blockskyscraper">
-				<div class='advertisement advertisement-top'>
-					<div class="center-block advertisement-adsense-skyscraper" ng-dfp-ad="dfp-skyscraper"></div>
-										<iframe src="/amazon/iframeskyscraperad" class="amazon_skyscraper_ad" title="Amazon ad"></iframe>
-				</div>
-			</div>
-
-		</div>
-
-	</main>
-			<geekoutput-footer></geekoutput-footer>
-	</div>
-
-
-<script>
-	window.google_analytics_uacct = "UA-104725-1";
-	(function ( i, s, o, g, r, a, m ) {
-		i[ 'GoogleAnalyticsObject' ] = r;
-		i[ r ] = i[ r ] || function () {
-				(i[ r ].q = i[ r ].q || []).push( arguments )
-			}, i[ r ].l = 1 * new Date();
-		a = s.createElement( o ), m = s.getElementsByTagName( o )[ 0 ];
-		a.async = 1;
-		a.src = g;
-		m.parentNode.insertBefore( a, m )
-	})
-	( window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga' );
-	ga( 'create', 'UA-104725-1', 'auto' );
-	ga( 'require', 'displayfeatures' );
-
-	</script>
-
-<script>
-	ga( 'send', 'pageview' );
-</script>
-
-
 
 </body>
 </html>`)

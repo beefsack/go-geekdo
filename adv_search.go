@@ -1,13 +1,14 @@
 package geekdo
 
 import (
+	"bytes"
 	"fmt"
 	"regexp"
 	"strconv"
 	"strings"
 
-	"github.com/moovweb/gokogiri"
-	"github.com/moovweb/gokogiri/xml"
+	"github.com/antchfx/htmlquery"
+	"golang.org/x/net/html"
 )
 
 var urlPartsRegexp = regexp.MustCompile(`^/(.+)/(\d+)/`)
@@ -26,8 +27,8 @@ type SearchCollectionItem struct {
 	UsersRated   int
 }
 
-func singleContent(n xml.Node, s string) (string, error) {
-	nodes, err := n.Search(s)
+func singleContent(n *html.Node, s string) (string, error) {
+	nodes, err := htmlquery.QueryAll(n, s)
 	if err != nil {
 		return "", err
 	}
@@ -35,19 +36,19 @@ func singleContent(n xml.Node, s string) (string, error) {
 		return "", fmt.Errorf(
 			"could not find single node with search '%s' in %s",
 			s,
-			n.Content(),
+			htmlquery.InnerText(n),
 		)
 	}
-	return nodes[0].Content(), nil
+	return htmlquery.InnerText(nodes[0]), nil
 }
 
 // ParseAdvSearch parses the items out of an advanced search.
 func ParseAdvSearch(page []byte) ([]SearchCollectionItem, error) {
-	doc, err := gokogiri.ParseHtml(page)
+	doc, err := htmlquery.Parse(bytes.NewReader(page))
 	if err != nil {
 		return nil, err
 	}
-	rows, err := doc.Search("//table/tr[@id='row_']")
+	rows, err := htmlquery.QueryAll(doc, "//tr[@id='row_']")
 	if err != nil {
 		return nil, err
 	}
@@ -66,20 +67,20 @@ func ParseAdvSearch(page []byte) ([]SearchCollectionItem, error) {
 			}
 		}
 		// Thumbnail, may be missing for a game
-		item.Thumbnail, _ = singleContent(r,
-			"td[@class='collection_thumbnail']//img/@src")
-		// Name
-		item.Name, err = singleContent(r,
+		if img := htmlquery.FindOne(r, "td[@class='collection_thumbnail']//img"); img != nil {
+			item.Thumbnail = htmlquery.SelectAttr(img, "src")
+		}
+		// Name and URL from the same link element
+		aNode, err := htmlquery.Query(r,
 			"td[starts-with(@id, 'CEcell_objectname')]/div[starts-with(@id, 'results_objectname')]/a")
 		if err != nil {
 			return nil, err
 		}
-		// URL
-		item.URL, err = singleContent(r,
-			"td[starts-with(@id, 'CEcell_objectname')]/div[starts-with(@id, 'results_objectname')]/a/@href")
-		if err != nil {
-			return nil, err
+		if aNode == nil {
+			return nil, fmt.Errorf("could not find name link in row")
 		}
+		item.Name = htmlquery.InnerText(aNode)
+		item.URL = htmlquery.SelectAttr(aNode, "href")
 		// ID and type (from URL)
 		submatches := urlPartsRegexp.FindStringSubmatch(item.URL)
 		if submatches == nil {
@@ -87,15 +88,18 @@ func ParseAdvSearch(page []byte) ([]SearchCollectionItem, error) {
 		}
 		item.Type = submatches[1]
 		item.ID, err = strconv.Atoi(submatches[2])
+		if err != nil {
+			return nil, err
+		}
 		// Year
-		years, err := r.Search(
+		years, err := htmlquery.QueryAll(r,
 			"td[starts-with(@id, 'CEcell_objectname')]//span[@class='smallerfont dull']")
 		if err != nil {
 			return nil, err
 		}
 		if len(years) > 0 {
 			item.Year, err = strconv.Atoi(strings.TrimFunc(
-				years[0].Content(),
+				htmlquery.InnerText(years[0]),
 				func(r rune) bool {
 					// Trim brackets and spaces
 					return r < '0' || r > '9'
@@ -106,26 +110,26 @@ func ParseAdvSearch(page []byte) ([]SearchCollectionItem, error) {
 			}
 		}
 		// Ratings (can be N/A)
-		ratings, err := r.Search("td[@class='collection_bggrating']")
+		ratings, err := htmlquery.QueryAll(r, "td[@class='collection_bggrating']")
 		if err != nil {
 			return nil, err
 		}
 		if len(ratings) != 3 {
-			return nil, fmt.Errorf("expected to find 3 ratings in %s", r.Content())
+			return nil, fmt.Errorf("expected to find 3 ratings in %s", htmlquery.InnerText(r))
 		}
-		if content := strings.TrimSpace(ratings[0].Content()); content != "N/A" {
+		if content := strings.TrimSpace(htmlquery.InnerText(ratings[0])); content != "N/A" {
 			item.BayesAverage, err = strconv.ParseFloat(content, 64)
 			if err != nil {
 				return nil, err
 			}
 		}
-		if content := strings.TrimSpace(ratings[1].Content()); content != "N/A" {
+		if content := strings.TrimSpace(htmlquery.InnerText(ratings[1])); content != "N/A" {
 			item.Average, err = strconv.ParseFloat(content, 64)
 			if err != nil {
 				return nil, err
 			}
 		}
-		if content := strings.TrimSpace(ratings[2].Content()); content != "N/A" {
+		if content := strings.TrimSpace(htmlquery.InnerText(ratings[2])); content != "N/A" {
 			item.UsersRated, err = strconv.Atoi(content)
 			if err != nil {
 				return nil, err
