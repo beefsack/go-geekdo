@@ -20,7 +20,7 @@ import (
 	"golang.org/x/time/rate"
 )
 
-const RATE_LIMIT = 5 * time.Second
+const RATE_LIMIT = 8 * time.Second
 
 // BoolOpt is an option boolean type used for querying the API.
 type BoolOpt int
